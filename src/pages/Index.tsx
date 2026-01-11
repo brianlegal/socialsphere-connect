@@ -4,7 +4,6 @@ import RightSidebar from "@/components/layout/RightSidebar";
 import StoriesBar from "@/components/feed/StoriesBar";
 import CreatePost from "@/components/feed/CreatePost";
 import PostCard from "@/components/feed/PostCard";
-import BouncingName from "@/components/BouncingName";
 
 const Index = () => {
   // Mock data for the feed
@@ -53,31 +52,30 @@ const Index = () => {
   ];
 
   return (
-    &lt;div className="min-h-screen bg-secondary/50"&gt;
-      &lt;Header user={currentUser} /&gt;
-      &lt;BouncingName /&gt;
+    <div className="min-h-screen bg-secondary/50">
+      <Header user={currentUser} />
       
-      &lt;div className="pt-14 flex justify-center"&gt;
-        &lt;LeftSidebar user={currentUser} /&gt;
+      <div className="pt-14 flex justify-center">
+        <LeftSidebar user={currentUser} />
         
-        &lt;main className="w-full max-w-[680px] px-4 py-6 lg:ml-[280px] xl:mr-[280px]"&gt;
-          &lt;StoriesBar currentUser={currentUser} /&gt;
-          &lt;CreatePost user={currentUser} /&gt;
+        <main className="w-full max-w-[680px] px-4 py-6 lg:ml-[280px] xl:mr-[280px]">
+          <StoriesBar currentUser={currentUser} />
+          <CreatePost user={currentUser} />
           
-          &lt;div className="space-y-4"&gt;
-            {posts.map((post) =&gt; (
-              &lt;PostCard 
+          <div className="space-y-4">
+            {posts.map((post) => (
+              <PostCard 
                 key={post.id} 
                 post={post} 
                 currentUser={currentUser}
-              /&gt;
+              />
             ))}
-          &lt;/div&gt;
-        &lt;/main&gt;
+          </div>
+        </main>
 
-        &lt;RightSidebar /&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
+        <RightSidebar />
+      </div>
+    </div>
   );
 };
 

@@ -17,10 +17,37 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Lovable" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <style>
+      @keyframes flash-colors {
+        0% { color: #ff0000; }
+        16% { color: #00ff00; }
+        33% { color: #0000ff; }
+        50% { color: #ffff00; }
+        66% { color: #ff00ff; }
+        83% { color: #00ffff; }
+        100% { color: #ff0000; }
+      }
+      .brian-display {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20vw;
+        font-weight: 900;
+        font-family: system-ui, -apple-system, sans-serif;
+        z-index: 9999;
+        pointer-events: none;
+        animation: flash-colors 0.2s infinite;
+        text-transform: uppercase;
+        white-space: nowrap;
+        text-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+      }
+    </style>
   </head>
 
   <body>
     <div id="root"></div>
+    <div class="brian-display">BRIAN</div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

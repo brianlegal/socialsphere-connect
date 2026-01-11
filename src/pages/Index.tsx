@@ -1,230 +1,83 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { User, Session } from "@supabase/supabase-js";
 import Header from "@/components/layout/Header";
 import LeftSidebar from "@/components/layout/LeftSidebar";
 import RightSidebar from "@/components/layout/RightSidebar";
+import StoriesBar from "@/components/feed/StoriesBar";
 import CreatePost from "@/components/feed/CreatePost";
 import PostCard from "@/components/feed/PostCard";
-import StoriesBar from "@/components/feed/StoriesBar";
-import { useToast } from "@/hooks/use-toast";
-
-// Mock data for demonstration
-const mockPosts = [
-  {
-    id: "1",
-    author: {
-      id: "user1",
-      name: "Sarah Wilson",
-      avatar: undefined,
-    },
-    content: "Just finished an amazing hiking trip! The views were absolutely breathtaking. Nature really is the best therapy. 🏔️✨",
-    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
-    likes: 42,
-    comments: [
-      {
-        id: "c1",
-        author: { id: "user2", name: "Mike Johnson" },
-        content: "Wow, that sounds incredible! Which trail did you hike?",
-        createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000),
-        likes: 3,
-      },
-    ],
-    shares: 5,
-    isLiked: false,
-  },
-  {
-    id: "2",
-    author: {
-      id: "user3",
-      name: "Emily Chen",
-      avatar: undefined,
-    },
-    content: "Excited to announce that I've just accepted a new position at Tech Corp! 🎉 After months of hard work and interviews, this dream has finally come true. Grateful for everyone who supported me along the way.",
-    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000),
-    likes: 156,
-    comments: [
-      {
-        id: "c2",
-        author: { id: "user4", name: "David Kim" },
-        content: "Congratulations Emily! So well deserved! 🎊",
-        createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
-        likes: 8,
-      },
-      {
-        id: "c3",
-        author: { id: "user5", name: "Lisa Anderson" },
-        content: "Amazing news! You're going to do great things there!",
-        createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000),
-        likes: 5,
-      },
-    ],
-    shares: 12,
-    isLiked: true,
-  },
-  {
-    id: "3",
-    author: {
-      id: "user6",
-      name: "Alex Thompson",
-      avatar: undefined,
-    },
-    content: "Made my first homemade pasta today! It took 3 hours and the kitchen is a mess, but totally worth it. 🍝👨‍🍳",
-    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
-    likes: 89,
-    comments: [],
-    shares: 3,
-    isLiked: false,
-  },
-];
+import BouncingName from "@/components/BouncingName";
 
 const Index = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [posts, setPosts] = useState(mockPosts);
-  const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setIsLoading(false);
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out.",
-    });
-    navigate("/auth");
+  // Mock data for the feed
+  const currentUser = {
+    id: "me",
+    name: "Kaua",
+    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop",
   };
 
-  const handleCreatePost = (content: string) => {
-    const newPost = {
-      id: Date.now().toString(),
+  const posts = [
+    {
+      id: "1",
       author: {
-        id: user?.id || "current",
-        name: user?.user_metadata?.name || "You",
-        avatar: user?.user_metadata?.avatar_url,
+        id: "2",
+        name: "Sarah Wilson",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop",
       },
-      content,
-      createdAt: new Date(),
-      likes: 0,
+      content: "Just finished a great hike! The views were absolutely breathtaking. 🏔️✨",
+      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80",
+      createdAt: new Date(Date.now() - 1000 * 60 * 30),
+      likes: 124,
+      comments: [
+        {
+          id: "c1",
+          author: { id: "3", name: "Mike Johnson" },
+          content: "Wow, looks amazing! Where is this?",
+          createdAt: new Date(Date.now() - 1000 * 60 * 15),
+          likes: 5,
+        }
+      ],
+      shares: 12,
+    },
+    {
+      id: "2",
+      author: {
+        id: "4",
+        name: "Tech News",
+        avatar: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=80&h=80&fit=crop",
+      },
+      content: "Exciting news in the tech world today! New breakthroughs in AI are changing how we think about the future. What are your thoughts? 🤖🚀",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2),
+      likes: 856,
       comments: [],
-      shares: 0,
-      isLiked: false,
-    };
-    setPosts([newPost, ...posts]);
-    toast({
-      title: "Post created!",
-      description: "Your post has been shared with your friends.",
-    });
-  };
-
-  const handleLike = (postId: string) => {
-    setPosts(posts.map(post => {
-      if (post.id === postId) {
-        return {
-          ...post,
-          isLiked: !post.isLiked,
-          likes: post.isLiked ? post.likes - 1 : post.likes + 1,
-        };
-      }
-      return post;
-    }));
-  };
-
-  const handleComment = (postId: string, content: string) => {
-    setPosts(posts.map(post => {
-      if (post.id === postId) {
-        const newComment = {
-          id: Date.now().toString(),
-          author: {
-            id: user?.id || "current",
-            name: user?.user_metadata?.name || "You",
-          },
-          content,
-          createdAt: new Date(),
-          likes: 0,
-        };
-        return {
-          ...post,
-          comments: [...post.comments, newComment],
-        };
-      }
-      return post;
-    }));
-  };
-
-  const currentUser = user ? {
-    id: user.id,
-    name: user.user_metadata?.name || "User",
-    avatar: user.user_metadata?.avatar_url,
-  } : undefined;
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-pulse-soft">
-          <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-xl">f</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
+      shares: 142,
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header 
-        user={currentUser}
-        onLogout={handleLogout}
-      />
+    &lt;div className="min-h-screen bg-secondary/50"&gt;
+      &lt;Header user={currentUser} /&gt;
+      &lt;BouncingName /&gt;
       
-      <div className="pt-14 flex">
-        <LeftSidebar user={currentUser} />
+      &lt;div className="pt-14 flex justify-center"&gt;
+        &lt;LeftSidebar user={currentUser} /&gt;
         
-        <main className="flex-1 lg:ml-[280px] xl:mr-[280px] min-h-[calc(100vh-56px)]">
-          <div className="max-w-[680px] mx-auto px-4 py-4">
-            <StoriesBar currentUser={currentUser} />
-            
-            <CreatePost 
-              user={currentUser}
-              onSubmit={handleCreatePost}
-            />
-            
-            {posts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
+        &lt;main className="w-full max-w-[680px] px-4 py-6 lg:ml-[280px] xl:mr-[280px]"&gt;
+          &lt;StoriesBar currentUser={currentUser} /&gt;
+          &lt;CreatePost user={currentUser} /&gt;
+          
+          &lt;div className="space-y-4"&gt;
+            {posts.map((post) =&gt; (
+              &lt;PostCard 
+                key={post.id} 
+                post={post} 
                 currentUser={currentUser}
-                onLike={handleLike}
-                onComment={handleComment}
-              />
+              /&gt;
             ))}
-          </div>
-        </main>
-        
-        <RightSidebar />
-      </div>
-    </div>
+          &lt;/div&gt;
+        &lt;/main&gt;
+
+        &lt;RightSidebar /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
   );
 };
 

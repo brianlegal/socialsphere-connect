@@ -14,8 +14,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 11% 15%;
 
-    /* Facebook Blue */
-    --primary: 214 89% 52%;
+    /* primary: trocado de azul para vermelho */
+    --primary: 0 84% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 14% 96%;
@@ -24,38 +24,26 @@
     --muted: 220 14% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 214 89% 52%;
+    /* manter accent consistente com primary (opcional) */
+    --accent: 0 84% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 214 89% 52%;
+    --border: 210 14% 25%;
+    --input: 210 14% 25%;
+    --ring: 214 89% 60%;
 
-    --radius: 0.5rem;
+    --fb-hover: 210 14% 20%;
+    --fb-divider: 210 14% 25%;
 
-    /* Custom Facebook tokens */
-    --fb-green: 120 40% 45%;
-    --fb-green-foreground: 0 0% 100%;
-    --fb-hover: 220 20% 94%;
-    --fb-divider: 220 10% 90%;
-    
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 2px 12px 0 rgb(0 0 0 / 0.08);
-    --shadow-lg: 0 4px 24px 0 rgb(0 0 0 / 0.12);
-
-    /* Sidebar */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 214 89% 52%;
+    --sidebar-background: 210 11% 15%;
+    --sidebar-foreground: 210 40% 98%;
+    /* sidebar-primary também trocado para vermelho */
+    --sidebar-primary: 0 84% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 210 11% 15%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 214 89% 52%;
+    --sidebar-accent: 210 14% 22%;
   }
 
   .dark {
@@ -68,116 +56,17 @@
     --popover: 210 14% 18%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 214 89% 52%;
+    /* primary (dark) também trocada para vermelho */
+    --primary: 0 84% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 14% 22%;
-    --secondary-foreground: 210 40% 98%;
+    /* ... demais variáveis ... */
 
-    --muted: 210 14% 22%;
-    --muted-foreground: 215 20% 65%;
+    /* manter consistência no accent/sidebar */
+    --accent: 0 84% 60%;
 
-    --accent: 214 89% 52%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 210 14% 25%;
-    --input: 210 14% 25%;
-    --ring: 214 89% 60%;
-
-    --fb-hover: 210 14% 20%;
-    --fb-divider: 210 14% 25%;
-
-    --sidebar-background: 210 11% 15%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 214 89% 52%;
+    --sidebar-primary: 0 84% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 14% 22%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 210 14% 25%;
-    --sidebar-ring: 214 89% 60%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
-  }
-}
-
-@layer utilities {
-  /* Facebook-style animations */
-  .animate-fade-in {
-    animation: fadeIn 0.2s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-scale-in {
-    animation: scaleIn 0.15s ease-out;
-  }
-
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* Card hover effect */
-  .card-hover {
-    @apply transition-shadow duration-200;
-  }
-
-  .card-hover:hover {
-    box-shadow: var(--shadow-md);
-  }
-
-  /* Interactive element styles */
-  .interactive-hover {
-    @apply transition-colors duration-150;
-  }
-
-  .interactive-hover:hover {
-    background-color: hsl(var(--fb-hover));
   }
 }
